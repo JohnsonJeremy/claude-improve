@@ -1,0 +1,32 @@
+{
+  "manifest_version": "0.3",
+  "name": "apple-reminders-local",
+  "display_name": "Apple Reminders (local)",
+  "version": "1.0.0",
+  "description": "Read and write Apple Reminders on this Mac: lists, due dates, alarms, repeat rules, priority and tags. Built locally from source; no network access.",
+  "author": {
+    "name": "Self-built"
+  },
+  "license": "MIT",
+  "server": {
+    "type": "binary",
+    "entry_point": "server/reminders-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/server/reminders-mcp",
+      "args": [],
+      "env": {}
+    }
+  },
+  "tools": [
+    { "name": "reminders_status", "description": "Check Reminders permission and tag Shortcuts" },
+    { "name": "list_lists", "description": "List the Reminders lists" },
+    { "name": "list_reminders", "description": "List or search reminders" },
+    { "name": "get_reminder", "description": "Get one reminder by id" },
+    { "name": "create_reminder", "description": "Create a reminder" },
+    { "name": "update_reminder", "description": "Change, complete or move a reminder" },
+    { "name": "delete_reminder", "description": "Permanently delete one reminder" }
+  ],
+  "compatibility": {
+    "platforms": ["darwin"]
+  }
+}
