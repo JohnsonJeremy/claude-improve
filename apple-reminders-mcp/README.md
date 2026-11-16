@@ -12,9 +12,9 @@ write Apple Reminders on your Mac.
 - **Cannot**: create, rename or delete lists. Flags, subtasks, sections, the
   URL field and images are not available through Apple's EventKit API.
 
-> Status: written and reviewed, but **not yet compiled or run** — it was
-> authored on a machine without macOS. Step 1 below is the first real build.
-> If it reports a compile error, send the error text back and it can be fixed.
+> Status: builds and passes its self-test on macOS (create, search, edit,
+> repeat, complete, delete). Still to be confirmed on a real Mac: the
+> permission prompt inside Claude, and the two tag Shortcuts.
 
 ## Requirements
 
