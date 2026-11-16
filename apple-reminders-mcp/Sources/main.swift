@@ -845,6 +845,10 @@ func toolUpdateReminder(_ args: [String: Any]) throws -> [String: Any] {
     try applyFields(reminder, args, isNew: false)
     try store.save(reminder, commit: true)
     var result = reminderDict(reminder)
+    if boolArg(args, "completed") == true && !reminder.isCompleted {
+        result["completed_note"] =
+            "This is a repeating reminder: this occurrence was completed and it moved on to the next one, so it still shows as incomplete."
+    }
     handleTags(reminder, args, into: &result)
     result["updated"] = true
     return result
@@ -1190,8 +1194,15 @@ func runSelfTest() -> Int32 {
     } else {
         print("SKIP  tags: the two tag Shortcuts are not both installed")
     }
-    step("complete") {
-        let done = try callTool("update_reminder", ["id": id, "completed": true])
+    step("complete a repeating reminder (moves to next occurrence)") {
+        let advanced = try callTool("update_reminder", ["id": id, "completed": true])
+        guard (advanced["completed"] as? Bool) == true || advanced["completed_note"] != nil else {
+            throw ToolError("Unexpected result: \(prettyJSON(advanced))")
+        }
+        return "ok, now due \(advanced["due"] ?? "?")"
+    }
+    step("stop repeating, then complete") {
+        let done = try callTool("update_reminder", ["id": id, "recurrence": NSNull(), "completed": true])
         guard (done["completed"] as? Bool) == true else { throw ToolError("Not completed") }
         return "ok"
     }
